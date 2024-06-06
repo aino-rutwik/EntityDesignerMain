@@ -1,0 +1,118 @@
+
+.header-tabs{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: start;
+    margin-left: 40px;
+  
+}
+
+.header-tabs > div{
+    display: flex;
+    padding:8px 16px;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    border: 1px solid #ffffff00;
+    
+}
+
+.header-tabs > *:hover{
+    border: 1px solid #c0c0c0;
+    cursor: pointer;
+}
+
+.schema-editor-container{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(238, 233, 233);
+}
+
+schema-editor-view{
+    flex:1;
+    height: 100%;
+}
+.schemaEditorToolbar__container{
+    height: 100%;
+    width: 60px;
+    background: #FAFAFA;
+    align-items: center;
+    justify-content: start;
+    border-width: 0 1px;
+    border-color: #D1D1D1;
+    border-style: solid;
+}
+
+.schemaEditorToolbar__container-tabs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+.schemaEditorToolbar__container-tabs > *{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    font-weight: bold;
+    width: 100%;
+    height: 60px;
+    border-bottom: 1px solid #D1D1D1;
+    color: #999999;
+}
+
+.schemaEditorToolbar__container-tabs > *:hover{
+    cursor: pointer;
+    color: black;
+}
+
+
+.schema-editor-view{
+    height: 100%;
+    width: 100%;
+}
+.schemaEditorView__container{
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content:start;
+}
+
+
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.entity-app{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+body{
+    font-family: "Open Sans", sans-serif;
+}
+
+.header{
+    height:40px;
+    background: #FAFAFA;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border-bottom: 2px solid #D1D1D1;
+}
+.mid-container{
+    height: calc(100vh - 60px);
+    width: 100%;
+}
+.footer{
+    height: 20px;
+    background-color:#FAFAFA;
+    display: flex;
+}

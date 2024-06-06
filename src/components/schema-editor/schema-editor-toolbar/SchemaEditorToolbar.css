@@ -1,0 +1,34 @@
+.schemaEditorToolbar__container{
+    height: 100%;
+    width: 60px;
+    background: #FAFAFA;
+    align-items: center;
+    justify-content: start;
+    border-width: 0 1px;
+    border-color: #D1D1D1;
+    border-style: solid;
+}
+
+.schemaEditorToolbar__container-tabs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+.schemaEditorToolbar__container-tabs > *{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    font-weight: bold;
+    width: 100%;
+    height: 60px;
+    border-bottom: 1px solid #D1D1D1;
+    color: #999999;
+}
+
+.schemaEditorToolbar__container-tabs > *:hover{
+    cursor: pointer;
+    color: black;
+}
+

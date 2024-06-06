@@ -1,0 +1,101 @@
+
+schema-editor-view-table-view{
+    height: 100%;
+    width: 100%;
+}
+
+.schemaEditorView__container-table-creation{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.schemaEditorView__container-table-creation-info{
+    display: flex;
+    flex-direction: column;
+    height:100%;
+    background-color: #FCFCFC;
+    align-items: center;
+    /* box-shadow: 0 10px 10px  rgb(64 64 64 / 70%); */
+    
+}
+
+.schemaEditorView__container-table-creation-info-table-name-input{
+    height: 30px;
+    margin: 20px 20px 20px 3px;
+    width: 300px;
+    border:1px #D1D1D1 solid;
+    outline: none;
+}
+.schemaEditorView__container-table-creation-info-table-name-input:hover{
+    border:1px #000000 solid;
+}
+
+.schemaEditorView__container-table-creation-info-header{
+    width: 100%;
+    display: flex;
+    font-size: 13px;
+    gap: 13px;
+    padding-bottom: 3px;
+    align-items: center;
+    border-bottom:1px #D1D1D1 solid;
+}
+
+.schemaEditorView__container-table-creation-info-header >div{
+    padding-left:20px;
+}
+
+.schemaEditorView__container-table-creation-info-table-name-box{
+    display: flex;
+    align-items: center;
+}
+
+.schemaEditorView__container-table-creation-info-midcontain{
+    position: relative;
+    width: 100%;
+    height: calc();
+    display: flex;
+    flex-direction: column;
+    /* background: rebeccapurple; */
+    justify-content: start;
+    align-items: center;
+
+}
+.schemaEditorView__container-table-creation-info-midcontain-heading{
+    /* margin-right: 8px; */
+    height: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 30px;
+    padding: 25px 0;
+}
+
+.schemaEditorView__container-table-creation-info-midcontain-columns{
+    width: 100%;
+    height:100%;
+    
+}
+
+.schemaEditorView__container-table-creation-info-midcontain-cols-btns-addbtn{
+    height: 30px;
+}
+
+.schemaEditorView__container-table-creation-info-footer{
+    width: 100%;
+    height: max-content;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 8px 16px;
+    background:#FAFAFA;
+    border:1px #D1D1D1 solid;
+    gap: 5px;
+}
+
+.schemaEditorView__container-table-creation-info-footer >button{
+    height: 30px;
+    width: max-content;
+    padding:4px;
+}

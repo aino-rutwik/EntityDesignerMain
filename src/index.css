@@ -1,0 +1,32 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.entity-app{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+body{
+    font-family: "Open Sans", sans-serif;
+}
+
+.header{
+    height:40px;
+    background: #FAFAFA;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border-bottom: 2px solid #D1D1D1;
+}
+.mid-container{
+    height: calc(100vh - 60px);
+    width: 100%;
+}
+.footer{
+    height: 20px;
+    background-color:#FAFAFA;
+    display: flex;
+}

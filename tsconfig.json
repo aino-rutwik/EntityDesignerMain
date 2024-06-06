@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+       "outDir": "./dist/",
+       "noImplicitAny": true,
+       "module": "es2020",
+       "target": "es2015",
+       "esModuleInterop": true,
+       "allowJs": true,
+       "forceConsistentCasingInFileNames": true ,
+       "moduleResolution": "node",
+       "skipLibCheck": true,
+       "experimentalDecorators":true,
+       "emitDecoratorMetadata": true,
+       "sourceMap":true
+    },
+    "exclude": [ "./cypress.config.ts", "node_modules",
+    "public_html",
+    "test", "cypress"]
+  }
