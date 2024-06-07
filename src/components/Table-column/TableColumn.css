@@ -1,27 +1,32 @@
 table-column{
     width: 100%;
     height: 100%;
-    flex: 1 1 0;
-    overflow: auto;
 }
 .schemaEditorView__container-table-creation-info-midcontain-columns-info{
-    height: 30px;
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    gap: 30px;
-    padding-bottom: 30px;
 }
 
-.schemaEditorView__container-table-creation-info-midcontain-columns-info >*{
+.schemaEditorView__container-table-creation-info-midcontain-columns-info > *{
     display: flex;
     justify-content: center;
-    flex: 1;
-    width: 15px;
-    margin: 15px;
+    flex: 1 1 0;
+    margin-bottom: 15px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.schemaEditorView__container-table-creation-info-midcontain-columns-info .container{
+    width: 100px;
+    flex: unset;
 }
 
 .schemaEditorView__container-table-creation-info-midcontain-columns-datatype-options{
-    width: 90px;
+    padding: 8px 16px;
+    width: 100%;
+    background: rgb(243, 242, 242);
+    border-radius: 4px;
+    font-size: 16px;
 }

@@ -1,4 +1,5 @@
 import { WebComponent } from "../../webComponent";
+import { SchemaEditorViewTableList } from "../schema-editor-view/schema-editor-view-Table-list/SchemaEditorViewTableList";
 import './SchemaEditorToolbar.css';
 
 export class SchemaEditorToolbar extends WebComponent{
@@ -18,9 +19,11 @@ export class SchemaEditorToolbar extends WebComponent{
         this.removeEventListener('click', this.handleClickEvent);
     }
 
-    handleClickEvent(e : MouseEvent){
 
+    handleClickEvent(e : MouseEvent){
+        
     }
+
 
     render(): void {
         this.innerHTML = `

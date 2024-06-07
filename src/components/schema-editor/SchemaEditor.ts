@@ -6,25 +6,25 @@ export class SchemaEditor extends WebComponent {
 
     constructor(){
         super();
-        this.handleCLickEvent = this.handleCLickEvent.bind(this);
+        this.handleClickEvent = this.handleClickEvent.bind(this);
     }
 
     connectedCallback(): void {
         this.render();
-        this.addEventListener('clicl', this.handleCLickEvent);
+        this.addEventListener('clicl', this.handleClickEvent);
     }
 
     disconnectedCallback(): void {
-        this.removeEventListener('click', this.handleCLickEvent);
+        this.removeEventListener('click', this.handleClickEvent);
     }
 
-    handleCLickEvent(e : MouseEvent){
-        // e.stopPropagation();
-
+    handleClickEvent(e : MouseEvent){
         const target = e.target as HTMLElement;
         const className  = target.className;
 
     }
+
+
     render(): void {
         this.innerHTML=`
         <div class="schema-editor-container">

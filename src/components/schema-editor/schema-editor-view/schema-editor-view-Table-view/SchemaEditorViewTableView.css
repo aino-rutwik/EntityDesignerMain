@@ -34,68 +34,98 @@ schema-editor-view-table-view{
 .schemaEditorView__container-table-creation-info-header{
     width: 100%;
     display: flex;
-    font-size: 13px;
     gap: 13px;
-    padding-bottom: 3px;
     align-items: center;
     border-bottom:1px #D1D1D1 solid;
 }
 
 .schemaEditorView__container-table-creation-info-header >div{
     padding-left:20px;
+
 }
 
 .schemaEditorView__container-table-creation-info-table-name-box{
     display: flex;
     align-items: center;
+    gap: 4px;
+    width: 50%;
+}
+
+.schemaEditorView__container-table-creation-info-table-name-box input{
+    width: 100%;
+    padding: 0 5px;
 }
 
 .schemaEditorView__container-table-creation-info-midcontain{
     position: relative;
     width: 100%;
-    height: calc();
+    height: 100%;
     display: flex;
     flex-direction: column;
-    /* background: rebeccapurple; */
     justify-content: start;
     align-items: center;
-
+    padding-right: 20px;
 }
 .schemaEditorView__container-table-creation-info-midcontain-heading{
-    /* margin-right: 8px; */
-    height: 30px;
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    gap: 30px;
-    padding: 25px 0;
+}
+
+.schemaEditorView__container-table-creation-info-midcontain-heading >div{
+    flex: 1;
+}
+.schemaEditorView__container-table-creation-info-midcontain-heading >div > h2 {
+    text-align: center;
+}
+
+.schemaEditorView__container-table-creation-info-midcontain-heading .schemaEditorView__container-table-creation-info-midcontain-heading-col-expose{
+    width: 150px;
+    flex: unset;
 }
 
 .schemaEditorView__container-table-creation-info-midcontain-columns{
     width: 100%;
-    height:100%;
-    
-}
-
-.schemaEditorView__container-table-creation-info-midcontain-cols-btns-addbtn{
-    height: 30px;
+    flex: 1 1 0;
+    overflow-y:auto;
 }
 
 .schemaEditorView__container-table-creation-info-footer{
     width: 100%;
-    height: max-content;
     display: flex;
     justify-content: end;
     align-items: center;
-    padding: 8px 16px;
+    padding: 20px 16px;
     background:#FAFAFA;
     border:1px #D1D1D1 solid;
     gap: 5px;
 }
 
 .schemaEditorView__container-table-creation-info-footer >button{
-    height: 30px;
     width: max-content;
-    padding:4px;
+    padding:8px 16px;
+    background:#007bff;
+    color: white;
+    border: none;
+    border-radius:5px;
+    font-size: 16px;
+}
+
+.schemaEditorView__container-table-creation-info-footer >button:hover{
+    background:#0271e7;
+}
+
+h2{
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.container{
+    display: flex;
+    gap: 4px;
 }

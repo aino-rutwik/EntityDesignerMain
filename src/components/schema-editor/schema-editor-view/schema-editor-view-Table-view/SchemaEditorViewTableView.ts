@@ -1,10 +1,15 @@
+import { ColumnRecord } from "../../../../descriptor/ColumnRecord";
 import { TableColumn } from "../../../Table-column/TableColumn";
 import { WebComponent } from "../../../webComponent";
 import './SchemaEditorViewTableView.css';
 
 export class SchemaEditorViewTableView extends WebComponent{
+    
+    private columnId : number;
+
     constructor(){
         super();
+        this.columnId = 1;
         this.handleClickEvent = this.handleClickEvent.bind(this);
     }
 
@@ -21,14 +26,47 @@ export class SchemaEditorViewTableView extends WebComponent{
         const className = target.className;
 
         if(className === 'schemaEditorView__container-table-creation-info-midcontain-cols-btns-addbtn'){
-            this.createColumn();
+            this.createColumn();}
+        else if(className === 'schemaEditorView__container-table-creation-info-midcontain-save-btn'){
+            this.saveTable();
         }
     }
 
     createColumn(){
+        const columnId = this.columnId++;
         const columnsBox = this.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns') as HTMLElement;
         const column = new TableColumn();
+        column.dataset.columnid = columnId.toString();
         columnsBox.append(column);
+    }
+
+    saveTable(){
+
+        const tableName = (this.querySelector('.schemaEditorView__container-table-creation-info-table-name-input') as HTMLInputElement).value;
+        const columns: ColumnRecord[] = [];
+
+        const columnContainer = this.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns') as HTMLElement;
+
+        columnContainer.childNodes.forEach((child) => {
+            if (child instanceof TableColumn) {
+                const columnId = child.dataset.columnid;
+                const name = (child.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-name') as HTMLInputElement).value;
+                const dataType = (child.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-datatype-options') as HTMLSelectElement).value;
+                const defaultValue = (child.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-default') as HTMLInputElement).value;
+                const record = new ColumnRecord(columnId, name,dataType, defaultValue)
+
+                columns.push(record);
+            }
+        })
+
+        const event = new CustomEvent("custom", {
+            detail: {
+                name: tableName,
+                columns: columns
+            }
+        });
+
+        this.dispatchEvent(event);
     }
     
     render(): void {
@@ -37,33 +75,33 @@ export class SchemaEditorViewTableView extends WebComponent{
         <div class="schemaEditorView__container-table-creation-info">
             <div class="schemaEditorView__container-table-creation-info-header">
                 <div class="schemaEditorView__container-table-creation-info-table-name-box">
-                    <div> Name: </div>
+                    <h2> Name: </h2>
                     <input class="schemaEditorView__container-table-creation-info-table-name-input" type="text" placeholder="Enter Table Name">
                 </div>
                 <div class="container">
                 <input type="checkbox" checked="checked">
-                Include System Properties
+                    <h2>Include System Properties</h2>
                 <span class="checkmark"></span>
                 </div>
                 <div class="container">
                 <input type="checkbox" checked="checked">
-                Expose DataType
+                    <h2> Expose DataType</h2>
                 <span class="checkmark"></span>
                 </div>
             </div>
             <div class="schemaEditorView__container-table-creation-info-midcontain">
                 <div class="schemaEditorView__container-table-creation-info-midcontain-heading">
                     <div class="schemaEditorView__container-table-creation-info-midcontain-heading-col-expose">
-                        Expose Data
+                        <h2>Expose Data</h2>
                     </div>
                     <div class="schemaEditorView__container-table-creation-info-midcontain-heading-col-name">
-                        Column Name
+                        <h2>Column Name</h2>
                     </div>
                     <div class="schemaEditorView__container-table-creation-info-midcontain-heading-col-type">
-                        Select Data Type
+                        <h2>Select Data Type</h2>
                     </div>
                     <div class="schemaEditorView__container-table-creation-info-midcontain-heading-col-default">
-                        Default value
+                        <h2>Default value</h2>
                     </div>
                 </div>
                 <div class="schemaEditorView__container-table-creation-info-midcontain-columns">
