@@ -30,6 +30,9 @@ export class TableColumn extends WebComponent{
         </div>
 
         <input class="schemaEditorView__container-table-creation-info-midcontain-columns-default" type="text" placeholder="Enter default value">
+        <div class="schemaEditorView__container-table-creation-info-midcontain-columns-more">
+            <i class="fa-solid fa-ellipsis-vertical"></i>   
+        </div>
         </div>
         `;
     }

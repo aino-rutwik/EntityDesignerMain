@@ -78,6 +78,7 @@ schema-editor-view-table-list {
 }
 
 .schemaEditorView__container-table-list-element{
+    text-align: center;
     background: rgb(255, 255, 255);
     height: 30px;
     width: 100%;

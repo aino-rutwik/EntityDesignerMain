@@ -15,8 +15,11 @@ export class SchemaEditorView extends WebComponent {
         super();
         this.tableId = 1;
         this.handleClickEvent = this.handleClickEvent.bind(this);
-        this.handleCustomEvent = this.handleCustomEvent.bind(this);
+        // this.handleCustomEvent = this.handleCustomEvent.bind(this);
+        this.handleSaveTableEvent = this.handleSaveTableEvent.bind(this);
+        this.handleDisplayTableInfo = this.handleDisplayTableInfo.bind(this);
         this.handleCreateTableEvent = this.handleCreateTableEvent.bind(this);
+        this.handleClearDisplayedTableInfo = this.handleClearDisplayedTableInfo.bind(this);
     }
 
     connectedCallback(): void {
@@ -28,32 +31,73 @@ export class SchemaEditorView extends WebComponent {
         this.view = this.querySelector("schema-editor-view-table-view");
 
         this.addEventListener('click', this.handleClickEvent);
-        this.addEventListener('custom', this.handleCustomEvent);
+        this.addEventListener('save-table-event', this.handleSaveTableEvent);
+        this.addEventListener('display-table-info', this.handleDisplayTableInfo);
         this.addEventListener('create-table', this.handleCreateTableEvent);
+        this.addEventListener('clear-displayed-table-info', this.handleClearDisplayedTableInfo);
     }
 
     disconnectedCallback(): void {
         this.removeEventListener('click', this.handleClickEvent);
-        this.removeEventListener('custom', this.handleCustomEvent);
+        // this.removeEventListener('custom', this.handleCustomEvent);
+        this.removeEventListener('save-table-event', this.handleSaveTableEvent);
+        this.addEventListener('display-table-info', this.handleDisplayTableInfo);
         this.removeEventListener('create-table', this.handleCreateTableEvent);
+        this.removeEventListener('clear-displayed-table-info', this.handleClearDisplayedTableInfo);
     }
 
-    handleCustomEvent(e: CustomEvent) {
+    handleSaveTableEvent(e: CustomEvent) {
         let data = e.detail as {
             name: string,
-            columns: ColumnRecord[]
+            columns: ColumnRecord[];
+        };
+    
+        const tableId = this.view.dataset.tableid;
+    
+        if (this.tableRecords.has(tableId)) {
+            // Update the existing TableRecord
+            const existingRecord = this.tableRecords.get(tableId);
+            if (existingRecord) {
+                existingRecord.name = data.name;
+                existingRecord.columns = data.columns;
+                this.tableRecords.set(tableId, existingRecord);
+            }
+        } else {
+            // Create a new TableRecord
+            const newTableId = this.tableId.toString();
+            const tableRecord = new TableRecord(newTableId, data.name, data.columns);
+            this.list.createTable(newTableId, data.name);
+            this.tableRecords.set(newTableId, tableRecord);
+            this.tableId++;
         }
+    }
+    
+
+    handleDisplayTableInfo(e: CustomEvent){
+
+        this.view.clearTableInfo();
+
+        let data = e.detail as {
+            tableId: string
+        }
+        const tableId = data.tableId;
         
-        const tableRecord = new TableRecord(this.tableId.toString(), data.name, data.columns);
-        this.tableRecords.set(this.tableId.toString(), tableRecord);
+        const tableRecord = this.tableRecords.get(tableId);
+        this.view.displayTableInfo(tableId, tableRecord);
+        this.view.dataset.tableid = tableId;
 
-        this.list.createTable(tableRecord.id, tableRecord.name)
-
-        this.tableId++;
+    }
+    /**
+     * clear the table info present on the screen , same as reset button
+     */
+    handleClearDisplayedTableInfo(e : CustomEvent){
+        this.view.clearTableInfo();
+        this.view.createFirstColumn();
+        this.view.dataset.tableid = null
     }
 
     handleCreateTableEvent(e: CustomEvent){
-        this.generateTableCreationBox();
+        // this.generateTableCreationBox();
     }
 
     handleClickEvent(e : MouseEvent){
@@ -63,37 +107,18 @@ export class SchemaEditorView extends WebComponent {
         const className = target.className;
 
         if(className === "schemaEditorView__container-create-table-btn"){
-            this.generateTableCreationBox();
-        }
-        else if(className === "schemaEditorView__container-table-creation-info-midcontain-save-btn"){
-            this.saveTableInfo();
+            // this.generateTableCreationBox();
         }
     }
 
-    saveTableInfo(){
-        const tablesList = document.querySelector('.schemaEditorView__container-table-list-name') as HTMLElement;
+    // generateTableCreationBox(){
+    //     const tableCreationBox = this.querySelector(".schemaEditorView__container") as HTMLElement;
+    //     this.view.remove();
 
-        const tableListElement = document.createElement('div');
-        tableListElement.className = 'schemaEditorView__container-table-list-element';
-        tableListElement.dataset.tableid = this.tableId.toString();
-        tablesList.append(tableListElement);
-        this.tableId++;
-
-    }
-
-    saveColumnInfo(tableId: String, columnId:string){
-        // adds the column info in the columns map with
-    }
-
-
-    generateTableCreationBox(){
-        const tableCreationBox = this.querySelector(".schemaEditorView__container") as HTMLElement;
-        this.view.remove();
-
-        this.view = new SchemaEditorViewTableView();
-        this.view.dataset.tableId = this.tableId.toString();
-        tableCreationBox.append(this.view);
-    }
+    //     this.view = new SchemaEditorViewTableView();
+    //     this.view.dataset.tableId = this.tableId.toString();
+    //     tableCreationBox.append(this.view);
+    // }
 
     render(): void {
         this.innerHTML = /*html*/`

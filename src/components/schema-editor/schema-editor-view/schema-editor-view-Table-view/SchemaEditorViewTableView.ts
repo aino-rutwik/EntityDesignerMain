@@ -1,4 +1,5 @@
 import { ColumnRecord } from "../../../../descriptor/ColumnRecord";
+import { TableRecord } from "../../../../descriptor/TableRecord";
 import { TableColumn } from "../../../Table-column/TableColumn";
 import { WebComponent } from "../../../webComponent";
 import './SchemaEditorViewTableView.css';
@@ -9,7 +10,7 @@ export class SchemaEditorViewTableView extends WebComponent{
 
     constructor(){
         super();
-        this.columnId = 1;
+        this.columnId = 2;
         this.handleClickEvent = this.handleClickEvent.bind(this);
     }
 
@@ -22,13 +23,19 @@ export class SchemaEditorViewTableView extends WebComponent{
     }
 
     handleClickEvent(e : MouseEvent){
+        e.stopPropagation()
         const target = e.target as HTMLElement;
         const className = target.className;
 
-        if(className === 'schemaEditorView__container-table-creation-info-midcontain-cols-btns-addbtn'){
+        if(className === 'schemaEditorView__container-table-creation-info-footer-cols-btns-addbtn'){
             this.createColumn();}
-        else if(className === 'schemaEditorView__container-table-creation-info-midcontain-save-btn'){
-            this.saveTable();
+
+        else if(className === 'schemaEditorView__container-table-creation-info-footer-save-btn'){
+            this.saveTable(this.dataset.tableId);
+        }
+        else if(className === 'schemaEditorView__container-table-creation-info-footer-reset-btn'){
+            this.clearTableInfo();
+            this.createFirstColumn();
         }
     }
 
@@ -40,12 +47,60 @@ export class SchemaEditorViewTableView extends WebComponent{
         columnsBox.append(column);
     }
 
-    saveTable(){
+    createExistingColumns(colId : string, colName: string, colDataType: string, colDefaultVal:string){
+        const columnsBox = this.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns') as HTMLElement;
+        const column = new TableColumn();
+
+        column.dataset.colId = colId;
+        column.dataset.colName = colName;
+        column.dataset.colDataType = colDataType;
+        column.dataset.colDefaultVal = colDefaultVal;
+        
+        columnsBox.append(column);
+
+        const columnInput = column.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-name') as HTMLInputElement;
+        columnInput .value = colName;
+
+        const columnDataType = column.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-datatype-options') as HTMLSelectElement;
+        columnDataType.value = colDataType;
+
+        const columnDefaultValue = column.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-default') as HTMLInputElement;
+        columnDefaultValue.value = colDefaultVal;
+    }
+    createFirstColumn(){
+        const columnId = this.columnId++;
+        const columnsBox = this.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns') as HTMLElement;
+        const column = new TableColumn();
+        column.dataset.columnid = columnId.toString();
+        columnsBox.append(column);
+    }
+    /**
+     * remove the current value present on the screen in columns
+     */
+    clearTableInfo(){
+        
+        const tableNameInput = this.querySelector('.schemaEditorView__container-table-creation-info-table-name-input') as HTMLInputElement;
+        tableNameInput.value = "";
+
+        const columnsContainer = this.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns') as HTMLElement;
+        for (let i = columnsContainer.childNodes.length - 1; i >= 0; i--) {
+            const child = columnsContainer.childNodes[i];
+            if (child instanceof TableColumn) {
+                child.remove();
+            }
+        }
+
+    }
+
+    saveTable(tableId : string){
 
         const tableName = (this.querySelector('.schemaEditorView__container-table-creation-info-table-name-input') as HTMLInputElement).value;
-        const columns: ColumnRecord[] = [];
+        if(tableName != ""){
 
+        const columns: ColumnRecord[] = [];
         const columnContainer = this.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns') as HTMLElement;
+
+        let allColumnValid = true;
 
         columnContainer.childNodes.forEach((child) => {
             if (child instanceof TableColumn) {
@@ -53,21 +108,57 @@ export class SchemaEditorViewTableView extends WebComponent{
                 const name = (child.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-name') as HTMLInputElement).value;
                 const dataType = (child.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-datatype-options') as HTMLSelectElement).value;
                 const defaultValue = (child.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-default') as HTMLInputElement).value;
-                const record = new ColumnRecord(columnId, name,dataType, defaultValue)
 
-                columns.push(record);
+                if(name !== ""){
+                    const record = new ColumnRecord(columnId, name,dataType, defaultValue)
+                    columns.push(record);
+                }else{
+                    allColumnValid = false;
+                }
+                
             }
         })
-
-        const event = new CustomEvent("custom", {
-            detail: {
-                name: tableName,
-                columns: columns
-            }
-        });
-
-        this.dispatchEvent(event);
+        
+        if(allColumnValid){
+            const event = new CustomEvent("save-table-event", {
+                bubbles: true,
+                detail: {
+                    name: tableName,
+                    columns: columns
+                }
+            });
+    
+            this.dispatchEvent(event);
+        }else {
+            alert("All columns must have a name.");
+        }
+    }else{
+        alert("table name can't be empty")
     }
+    }
+
+     /**
+     * displays the table creation contaier on the screen for the specific tableId
+     * @param tableId 
+     */
+     displayTableInfo(tableId : string, tableRecord: TableRecord){
+
+        const  tableName = tableRecord.name;
+        const tableColumns = tableRecord.columns;
+
+        const tableNameInput = this.querySelector('.schemaEditorView__container-table-creation-info-table-name-input') as HTMLInputElement;
+        tableNameInput.value = tableName;
+
+         tableColumns.forEach(element => {
+            let colId = element.colId;
+            let colName = element.colName;
+            let colDataType = element.colDataType;
+            let colDefaultVal = element.colDefaultValue;
+            this.createExistingColumns(colId,colName, colDataType, colDefaultVal);
+        });
+        
+
+     }
     
     render(): void {
         this.innerHTML = /*html*/`
@@ -88,7 +179,11 @@ export class SchemaEditorViewTableView extends WebComponent{
                     <h2> Expose DataType</h2>
                 <span class="checkmark"></span>
                 </div>
+                <div class="schemaEditorView__container-table-creation-info-header-more">
+                 <i class="fa-solid fa-ellipsis"></i>
+                </div>
             </div>
+            
             <div class="schemaEditorView__container-table-creation-info-midcontain">
                 <div class="schemaEditorView__container-table-creation-info-midcontain-heading">
                     <div class="schemaEditorView__container-table-creation-info-midcontain-heading-col-expose">
@@ -105,13 +200,19 @@ export class SchemaEditorViewTableView extends WebComponent{
                     </div>
                 </div>
                 <div class="schemaEditorView__container-table-creation-info-midcontain-columns">
-                    <table-column></table-column>
+                    <table-column data-columnid='1'></table-column>
                 </div>
             </div>
         </div>
             <div class="schemaEditorView__container-table-creation-info-footer">
-                <button class="schemaEditorView__container-table-creation-info-midcontain-cols-btns-addbtn">Add columns</button>
-                <button class="schemaEditorView__container-table-creation-info-midcontain-save-btn">Save</button>
+                <div  class="schemaEditorView__container-table-creation-info-footer-left">
+                    <button class="schemaEditorView__container-table-creation-info-footer-cancel-btn">cancel</button>
+                    <button class="schemaEditorView__container-table-creation-info-footer-reset-btn">reset</button>
+                </div>
+                <div  class="schemaEditorView__container-table-creation-info-footer-right">
+                    <button class="schemaEditorView__container-table-creation-info-footer-cols-btns-addbtn">Add columns</button>
+                    <button class="schemaEditorView__container-table-creation-info-footer-save-btn">Save</button>
+                </div>
             </div>
         </div>
         `;

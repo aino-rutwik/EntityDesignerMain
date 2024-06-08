@@ -30,3 +30,8 @@ table-column{
     border-radius: 4px;
     font-size: 16px;
 }
+
+.schemaEditorView__container-table-creation-info-midcontain-columns-more{
+    flex: unset;
+    width: 3px;
+}

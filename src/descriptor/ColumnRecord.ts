@@ -1,14 +1,14 @@
 
 export class ColumnRecord {
-    id : string;
-    name : string;
-    dataType : string;
-    defaultValue : string;
+    colId : string;
+    colName : string;
+    colDataType : string;
+    colDefaultValue : string;
 
     constructor(id: string, name: string, dataType: string, defaultValue: string){
-        this.id = id;
-        this.name = name;
-        this.dataType = dataType;
-        this.defaultValue =  defaultValue;
+        this.colId = id;
+        this.colName = name;
+        this.colDataType = dataType;
+        this.colDefaultValue =  defaultValue;
     }
 }

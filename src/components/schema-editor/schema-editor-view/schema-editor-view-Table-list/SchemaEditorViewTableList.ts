@@ -26,22 +26,30 @@ export class SchemaEditorViewTableList extends WebComponent{
         const target = e.target as HTMLElement;
         const className = target.className;
 
-        if(className === "schemaEditorView__container-table-list-create-table-btn"){
-            const event = new CustomEvent('create-table');
+        if(className === "schemaEditorView__container-table-list-element"){
+            const tableId = target.dataset.tableid;
+
+            const event = new CustomEvent('display-table-info', {
+                bubbles : true,
+                detail :{
+                    tableId:tableId
+                }
+            });
+
             this.dispatchEvent(event);
         }
-        else if(className === "schemaEditorView__container-table-list-element"){
-            this.initTable(null);
+        else if (className === "schemaEditorView__container-table-list-create-table-btn"){
+            
+            const event = new CustomEvent('clear-displayed-table-info',{bubbles: true});
+            this.dispatchEvent(event);
         }
     }
+
     /**
-     * function will generate the table creation window , holding the privously saved values of the columns and tableName
-     * @param tableId id of the table
+     * add new entry of the table in the table list
+     * @param tableId 
+     * @param tableName 
      */
-    initTable(tableId: string){
-
-    }
-
     createTable(tableId : string, tableName : string){
         const tablesList = document.querySelector('.schemaEditorView__container-table-list-name') as HTMLElement;
         
@@ -50,9 +58,10 @@ export class SchemaEditorViewTableList extends WebComponent{
         tableListElement.dataset.tableid = tableId;
         tableListElement.textContent = tableName;
         tablesList.append(tableListElement);
-
     }
 
+   
+  
     render(): void {
         this.innerHTML =/*html*/`
         <div class="schemaEditorView__container-table-list">
