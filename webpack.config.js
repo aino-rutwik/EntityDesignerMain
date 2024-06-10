@@ -46,7 +46,13 @@ module.exports = (env, args) => {
     static: path.join(__dirname, "dist"),
     compress: true,
     port: 4000,
+    proxy: [{
+      context: ['/'],
+      target: 'http://localhost:8095/EntityMetaService'
+    }]
   },
+
+
   plugins: [
     new HtmlWebpackPlugin({
         template: './src/index.html',

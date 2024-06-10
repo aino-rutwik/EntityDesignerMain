@@ -36,7 +36,7 @@ schema-editor-view-table-view{
     display: flex;
     gap: 13px;
     align-items: center;
-    border-bottom:1px #D1D1D1 solid;
+    /* border-bottom:1px #D1D1D1 solid; */
 }
 
 .schemaEditorView__container-table-creation-info-header >div{
@@ -54,6 +54,49 @@ schema-editor-view-table-view{
 .schemaEditorView__container-table-creation-info-table-name-box input{
     width: 100%;
     padding: 0 5px;
+}
+
+.schemaEditorView__container-table-creation-info-moreOption {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 16px;
+}
+
+.schemaEditorView__container-table-creation-info-moreOption p{
+    padding-right: 12px;
+}
+
+.open i {
+    transition: transform 0.3s ease;
+}
+
+.open i{
+    transform: rotate(180deg);
+}
+
+.schemaEditorView__container-table-creation-info-DropMoreOption {
+    position: relative;
+    width: 100%;
+}
+
+.schemaEditorView__container-table-creation-info-DropMoreOption .schemaEditorView__dropdown-content {
+    display: none;
+    width: 100%;
+    background-color: #ece9e9;
+    /* box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); */
+    /* padding: 12px 16px; */
+    z-index: 1;
+    border-radius: 9px;
+    /* border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: grey; */
+    
+}
+
+.schemaEditorView__container-table-creation-info-DropMoreOption.open .schemaEditorView__dropdown-content {
+    display: block;
 }
 
 .schemaEditorView__container-table-creation-info-midcontain{
@@ -125,7 +168,8 @@ schema-editor-view-table-view{
     color: rgb(255, 255, 255);
     border: none;
     border-radius:5px;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 800;
 }
 
 .schemaEditorView__container-table-creation-info-footer-left >button:hover{
@@ -139,7 +183,8 @@ schema-editor-view-table-view{
     color: white;
     border: none;
     border-radius:5px;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 800;
 }
 
 .schemaEditorView__container-table-creation-info-footer-right >button:hover{
