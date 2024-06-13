@@ -35,6 +35,7 @@ export class SchemaEditorViewTableView extends WebComponent {
         }
 
         else if (className === 'schemaEditorView__container-table-creation-info-footer-save-btn') {
+            //by defult keeping the same shema
             this.saveTable("98");
         }
         else if (className === 'schemaEditorView__container-table-creation-info-footer-reset-btn') {
@@ -60,15 +61,17 @@ export class SchemaEditorViewTableView extends WebComponent {
         columnsBox.append(column);
     }
 
-    createExistingColumns(colId: string, colName: string, colDataType: string, colDefaultVal: string) {
+    createExistingColumns(colId: string, colCheckBox: string, colName: string, colDataType: string, colDefaultVal: string) {
         const columnsBox = this.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns') as HTMLElement;
         const column = new TableColumn();
 
         column.dataset.colId = colId;
+        column.dataset.colCheck = colCheckBox;
         column.dataset.colName = colName;
         column.dataset.colDataType = colDataType;
         column.dataset.colDefaultVal = colDefaultVal;
 
+    
         columnsBox.append(column);
 
         const columnInput = column.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-name') as HTMLInputElement;
@@ -105,52 +108,6 @@ export class SchemaEditorViewTableView extends WebComponent {
 
     }
 
-    // saveTable(tableId: string) {
-
-    //     const tableName = (this.querySelector('.schemaEditorView__container-table-creation-info-table-name-input') as HTMLInputElement).value;
-    //     if (tableName != "") {
-
-    //         const columns: ColumnRecord[] = [];
-    //         const columnContainer = this.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns') as HTMLElement;
-
-    //         let allColumnValid = true;
-
-    //         columnContainer.childNodes.forEach((child) => {
-    //             if (child instanceof TableColumn) {
-    //                 const columnId = child.dataset.columnid;
-    //                 const name = (child.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-name') as HTMLInputElement).value;
-    //                 const dataType = (child.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-datatype-options') as HTMLSelectElement).value;
-    //                 const defaultValue = (child.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-default') as HTMLInputElement).value;
-
-    //                 if (name !== "") {
-    //                     const record = new ColumnRecord(columnId, name, dataType, defaultValue)
-    //                     columns.push(record);
-    //                 } else {
-    //                     allColumnValid = false;
-    //                 }
-
-    //             }
-    //         })
-
-    //         if (allColumnValid) {
-    //             const event = new CustomEvent("save-table-event", {
-    //                 bubbles: true,
-    //                 detail: {
-    //                     name: tableName,
-    //                     columns: columns
-    //                 }
-    //             });
-
-    //             this.dispatchEvent(event);
-    //         } else {
-    //             alert("All columns must have a name.");
-    //         }
-    //     } else {
-    //         alert("table name can't be empty")
-    //     }
-        
-    // }
-
     async saveTable(schemaId: string) {
         const tableName = (this.querySelector('.schemaEditorView__container-table-creation-info-table-name-input') as HTMLInputElement).value;
         if (tableName !== "") {
@@ -162,12 +119,13 @@ export class SchemaEditorViewTableView extends WebComponent {
             columnContainer.childNodes.forEach((child) => {
                 if (child instanceof TableColumn) {
                     const columnId = child.dataset.columnid;
+                    const checkboxValue = (child.querySelector('.midcontain-columns-info-checkbox') as HTMLInputElement).value;
                     const name = (child.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-name') as HTMLInputElement).value;
                     const dataType = (child.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-datatype-options') as HTMLSelectElement).value;
                     const defaultValue = (child.querySelector('.schemaEditorView__container-table-creation-info-midcontain-columns-default') as HTMLInputElement).value;
 
                     if (name !== "") {
-                        const record = new ColumnRecord(columnId, name, dataType, defaultValue);
+                        const record = new ColumnRecord(columnId, checkboxValue, name, dataType, defaultValue);
                         columns.push(record);
                     } else {
                         allColumnValid = false;
@@ -211,10 +169,11 @@ export class SchemaEditorViewTableView extends WebComponent {
 
         tableColumns.forEach(element => {
             let colId = element.colId;
+            let colCheck = element.colCheck;
             let colName = element.colName;
             let colDataType = element.colDataType;
             let colDefaultVal = element.colDefaultValue;
-            this.createExistingColumns(colId, colName, colDataType, colDefaultVal);
+            this.createExistingColumns(colId,colCheck,colName, colDataType, colDefaultVal);
         });
 
 

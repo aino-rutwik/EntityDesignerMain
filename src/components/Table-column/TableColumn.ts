@@ -6,19 +6,16 @@ export class TableColumn extends WebComponent {
     constructor() {
         super();
         this.handleClickEvent = this.handleClickEvent.bind(this);
-        this.handleDocumentClick = this.handleDocumentClick.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
     }
     
     connectedCallback(): void {
         this.render();
         this.addEventListener('click', this.handleClickEvent);
-        document.addEventListener('click', this.handleDocumentClick);
     }
     
     disconnectedCallback(): void {
         this.removeEventListener('click', this.handleClickEvent);
-        document.removeEventListener('click', this.handleDocumentClick);
     }
 
     handleClickEvent(e: MouseEvent): void {
@@ -30,6 +27,8 @@ export class TableColumn extends WebComponent {
             this.setupDropdown();
         } else if (className === "delete-option") {
             this.handleDeleteClick();
+        }else if (className === "cancel-option"){
+            this.setupDropdown();
         }
     }
 
@@ -43,28 +42,24 @@ export class TableColumn extends WebComponent {
         this.remove();
     }
 
-    handleDocumentClick(e: MouseEvent): void {
-        const dropdownContent = this.querySelector('.dropdown-content');
-        
-        // Close dropdown if the click target is not within the column component
-        if (!this.contains(e.target as Node) && !dropdownContent.contains(e.target as Node)) {
-            dropdownContent.classList.remove('show');
-        }
+    getChecKBoxValue(): boolean{
+        const checkbox = this.querySelector('input[type="checkbox"]') as HTMLInputElement;
+        return checkbox.checked;
     }
 
     render(): void {
         this.innerHTML = /*html*/`
         <div class="schemaEditorView__container-table-creation-info-midcontain-columns-info">
             <div class="container">
-                <input type="checkbox" checked="checked">
+                <input type="checkbox" checked="checked" class="midcontain-columns-info-checkbox">
                 <span class="checkmark"></span>
             </div>
             <input class="schemaEditorView__container-table-creation-info-midcontain-columns-name" type="text" placeholder="Enter column name">
             <div class="schemaEditorView__container-table-creation-info-midcontain-columns-datatype" for='options'>
                 <select class="schemaEditorView__container-table-creation-info-midcontain-columns-datatype-options">
-                    <option value="number">Number</option>
-                    <option value="string">String</option>
-                    <option value="boolean">Boolean</option>
+                    <option value="java.lang.Number">Number</option>
+                    <option value="java.lang.String">String</option>
+                    <option value="java.lang.Boolean">Boolean</option>
                 </select>
             </div>
             <input class="schemaEditorView__container-table-creation-info-midcontain-columns-default" type="text" placeholder="Enter default value">
@@ -72,7 +67,8 @@ export class TableColumn extends WebComponent {
                 <i class="fa-solid fa-ellipsis-vertical"></i>
                 <div class="dropdown-content">
                     <div class="delete-option">Delete</div>
-                    <div>Update</div>
+                    <div class="update-option">update</div>
+                    <div class="cancel-option">cancel</div>
                 </div>
             </div>
         </div>`;

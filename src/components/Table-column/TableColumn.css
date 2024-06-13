@@ -16,6 +16,13 @@ table-column{
     padding: 8px 16px;
     border-radius: 4px;
     font-size: 16px;
+   
+}
+.schemaEditorView__container-table-creation-info-midcontain-columns-info > input{
+    border-width: 1px;
+    border-color: var(--border-color);
+    border-style: solid;
+    outline: none;
 }
 
 .schemaEditorView__container-table-creation-info-midcontain-columns-info .container{
@@ -29,6 +36,8 @@ table-column{
     background: rgb(243, 242, 242);
     border-radius: 4px;
     font-size: 16px;
+    border: none;
+    outline: none;
 }
 
 .schemaEditorView__container-table-creation-info-midcontain-columns-more{
@@ -45,6 +54,11 @@ table-column{
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     border-radius: 4px;
+    font-style: italic;
+}
+
+.dropdown-content .cancel-option{
+    background: rgba(255, 0, 0, 0.226);
 }
 
 .dropdown-content div {

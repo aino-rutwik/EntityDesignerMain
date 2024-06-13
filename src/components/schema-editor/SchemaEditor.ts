@@ -11,7 +11,7 @@ export class SchemaEditor extends WebComponent {
 
     connectedCallback(): void {
         this.render();
-        this.addEventListener('clicl', this.handleClickEvent);
+        this.addEventListener('click', this.handleClickEvent);
     }
 
     disconnectedCallback(): void {
@@ -23,7 +23,6 @@ export class SchemaEditor extends WebComponent {
         const className  = target.className;
 
     }
-
 
     render(): void {
         this.innerHTML=`

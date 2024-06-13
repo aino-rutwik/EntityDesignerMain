@@ -1,19 +1,24 @@
+import { container } from "tsyringe";
 import { TableRecord } from "../../../../descriptor/TableRecord";
+import { EntityHelper } from "../../../../helper/EntityHelper";
 import { WebComponent } from "../../../webComponent";
 import './SchemaEditorViewTableList.css';
 
 export class SchemaEditorViewTableList extends WebComponent{
 
     private tableRecords : Map<string, TableRecord>;
+    private entityHelper : EntityHelper;
 
     constructor(){
         super();
         this.tableRecords = new Map<string, TableRecord>();
         this.handleClickEvent = this.handleClickEvent.bind(this);
+        this.entityHelper = container.resolve(EntityHelper);
     }
 
     connectedCallback(): void {
         this.render();
+        this.generateExistingTableList();
         this.addEventListener('click', this.handleClickEvent);
     }
     disconnectedCallback(): void {
@@ -43,6 +48,12 @@ export class SchemaEditorViewTableList extends WebComponent{
             const event = new CustomEvent('clear-displayed-table-info',{bubbles: true});
             this.dispatchEvent(event);
         }
+    }
+
+    generateExistingTableList(){
+        const tableListsContainer = this.querySelector(".schemaEditorView__container-table-list-name") as HTMLElement;
+        const tableObject = this.entityHelper.getTableColumnObject("changes");
+        console.log(tableObject);
     }
 
     /**
